@@ -10,57 +10,62 @@ class ProductsGridOverview extends StatelessWidget {
     return GetBuilder<Products>(
         init: Products(),
         builder: (_) {
-          return GridView.builder(
-              padding: EdgeInsets.all(20),
-              itemCount: productsController.popularOrCategory.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1 / 1.5,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 25,
-              ),
-              itemBuilder: (ctx, i) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    child: GridTile(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(PageRouteBuilder(
-                              pageBuilder: (context, animation, _) {
-                            return ProductPage(
-                              id: productsController.popularOrCategory[i].id,
-                            );
-                          }));
-                        },
-                        child: Image.network(
-                          productsController.popularOrCategory[i].photo,
-                        ),
-                      ),
-                      footer: GridTileBar(
-                        backgroundColor: Colors.white,
-                        title: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              productsController.popularOrCategory[i].name,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            Text(
-                              productsController.popularOrCategory[i].price
-                                      .toString() +
-                                  '\$',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+          return productsController.items.isEmpty
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : GridView.builder(
+                  padding: EdgeInsets.all(20),
+                  itemCount: productsController.popularOrCategory.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1 / 1.5,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 25,
                   ),
-                );
-              });
+                  itemBuilder: (ctx, i) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        child: GridTile(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  pageBuilder: (context, animation, _) {
+                                return ProductPage(
+                                  id: productsController
+                                      .popularOrCategory[i].id,
+                                );
+                              }));
+                            },
+                            child: Image.network(
+                              productsController.popularOrCategory[i].photo,
+                            ),
+                          ),
+                          footer: GridTileBar(
+                            backgroundColor: Colors.white,
+                            title: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  productsController.popularOrCategory[i].name,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Text(
+                                  productsController.popularOrCategory[i].price
+                                          .toString() +
+                                      '\$',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  });
         });
   }
 }

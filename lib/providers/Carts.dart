@@ -1,21 +1,22 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:shop_app/constants/config.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/providers/AuthController.dart';
 
 class CartController extends GetxController {
-  List<Product> _items = [];
+  List<Product> products = [];
 
   var total = 0;
 
   List<Product> get items {
-    return [..._items];
+    return [...products];
   }
 
   void scaleTotal() {
-    _items.forEach((element) {
+    products.forEach((element) {
       var num = int.parse(element.price.split(',').join('')) * element.count;
       total = total + num;
       update();
@@ -39,13 +40,13 @@ class CartController extends GetxController {
     }
 
     if (currentItem == false) {
-      _items.add(item);
+      products.add(item);
     }
     update();
   }
 
   void deleteProduct(int id) {
-    Product item = _items.firstWhere((element) => element.id == id);
+    Product item = products.firstWhere((element) => element.id == id);
 
     bool currentItem = false;
 
@@ -57,7 +58,7 @@ class CartController extends GetxController {
           findItem.count -= 1;
           total = 0;
         } else {
-          _items.removeWhere((element) => element.id == id);
+          products.removeWhere((element) => element.id == id);
           total = 0;
         }
         break;
@@ -69,7 +70,7 @@ class CartController extends GetxController {
   }
 
   void sendOrder() async {
-    var url = "http://10.0.2.2:8000/api/orders/create/";
+    var url = mainUrl + "/orders/create/";
 
     var productsList = [];
 
@@ -103,7 +104,7 @@ class CartController extends GetxController {
 
       print(json.encode(body));
 
-      _items.clear();
+      products.clear();
       total = 0;
       update();
     } catch (e) {

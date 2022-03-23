@@ -6,6 +6,7 @@ import 'package:shop_app/constants/colors.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/providers/Carts.dart';
 import 'package:shop_app/providers/Products.dart';
+import 'package:shop_app/screens/CartScreen.dart';
 import 'package:shop_app/services/ui_builders.dart';
 import 'package:shop_app/widgets/message_widget.dart';
 
@@ -58,37 +59,44 @@ class _ProductPageState extends State<ProductPage> {
           backgroundColor: headerProduct,
           title: Text(product.name.toString()),
           actions: [
-            Container(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  IconButton(
-                      color: Color(0xFF2D3A40),
-                      icon: Icon(
-                        Icons.shopping_cart,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {}),
-                  Positioned(
-                    top: 15,
-                    right: 5,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      width: 15,
-                      height: 10,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(
-                        cartController.items.length.toString(),
-                        style: TextStyle(color: Colors.black, fontSize: 7.5),
-                        textAlign: TextAlign.center,
-                      ),
+            GetBuilder<CartController>(
+                init: CartController(),
+                builder: (_) {
+                  return Container(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        IconButton(
+                            color: Color(0xFF2D3A40),
+                            icon: Icon(
+                              Icons.shopping_cart,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Get.to(CartScreen());
+                            }),
+                        Positioned(
+                          top: 15,
+                          right: 5,
+                          child: Container(
+                            alignment: Alignment.topCenter,
+                            width: 15,
+                            height: 10,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              cartController.items.length.toString(),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 7.5),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  );
+                }),
           ],
         ),
         body: SafeArea(

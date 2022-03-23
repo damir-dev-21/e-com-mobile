@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/constants/config.dart';
 import 'package:shop_app/models/User.dart';
+import 'package:shop_app/providers/Carts.dart';
 import 'package:shop_app/screens/AuthScreen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:shop_app/services/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 DatabaseHelper db = DatabaseHelper();
+CartController cartController = Get.put(CartController());
 
 class AuthControlller extends GetxController {
   User user;
@@ -70,6 +72,10 @@ class AuthControlller extends GetxController {
 
         Get.to(ProductsOverviewScreen());
         update();
+      } else {
+        isLoad = false;
+        isAuth = false;
+        update();
       }
     } catch (e) {
       isLoad = false;
@@ -95,6 +101,9 @@ class AuthControlller extends GetxController {
         isLoad = false;
         Get.to(AuthScreen());
         update();
+      } else {
+        isLoad = false;
+        update();
       }
     } catch (e) {
       isLoad = false;
@@ -114,6 +123,8 @@ class AuthControlller extends GetxController {
       final result = json.decode(body) as Map<String, dynamic>;
       if (result['message'] == 'success') {
         isAuth = false;
+        cartController.products = [];
+        cartController.total = 0;
         await db.rawDelete('DELETE FROM user WHERE name = ?', [user.name]);
         Get.to(AuthScreen());
 

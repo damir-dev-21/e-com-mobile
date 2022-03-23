@@ -124,16 +124,19 @@ class _AuthScreenState extends State<AuthScreen> {
                                             (states) => Colors.blue)),
                                 onPressed: () {
                                   authControlller.login(name, email, password);
-                                  ftoast.showToast(
-                                      child: toast(
-                                          'AUTH', 'Авторизация прошла успешно'),
-                                      toastDuration: Duration(seconds: 2),
-                                      positionedToastBuilder: (context, child) {
-                                        return Align(
-                                          child: child,
-                                          alignment: Alignment.center,
-                                        );
-                                      });
+                                  if (authControlller.isAuth == true) {
+                                    ftoast.showToast(
+                                        child: toast('AUTH',
+                                            'Авторизация прошла успешно'),
+                                        toastDuration: Duration(seconds: 2),
+                                        positionedToastBuilder:
+                                            (context, child) {
+                                          return Align(
+                                            child: child,
+                                            alignment: Alignment.center,
+                                          );
+                                        });
+                                  }
                                 },
                                 child: Container(
                                   child: Text(

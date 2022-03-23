@@ -87,64 +87,70 @@ class _CartScreenState extends State<CartScreen> {
           child: GetBuilder<CartController>(
               init: CartController(),
               builder: (_) {
-                return Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cartController.items.length,
-                      itemBuilder: (ctx, i) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(width: 0.5, color: Colors.grey)),
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 3),
-                          child: ListTile(
-                            leading: Container(
-                              child: Image.network(
-                                cartController.items[i].photo,
-                                height: 200,
-                                fit: BoxFit.cover,
+                return Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: cartController.items.length,
+                          itemBuilder: (ctx, i) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      width: 0.5, color: Colors.grey)),
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 3),
+                              child: ListTile(
+                                leading: Container(
+                                  child: Image.network(
+                                    cartController.items[i].photo,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                title: Text(cartController.items[i].name,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    )),
+                                subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Цена: ${cartController.items[i].price}",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "Количество: ${cartController.items[i].count.toString()}",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ]),
+                                trailing: GestureDetector(
+                                  onTap: () {
+                                    cartController.deleteProduct(
+                                        cartController.items[i].id);
+                                  },
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                  ),
+                                ),
                               ),
-                            ),
-                            title: Text(cartController.items[i].name,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                )),
-                            subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Цена: ${cartController.items[i].price}",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    "Количество: ${cartController.items[i].count.toString()}",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ]),
-                            trailing: GestureDetector(
-                              onTap: () {
-                                cartController
-                                    .deleteProduct(cartController.items[i].id);
-                              },
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                            );
+                          }),
+                    ),
+                  ],
                 );
               }),
         ),

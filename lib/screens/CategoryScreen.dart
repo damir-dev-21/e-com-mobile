@@ -5,6 +5,7 @@ import 'package:shop_app/constants/colors.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/providers/Products.dart';
 import 'package:shop_app/providers/PushNotifications.dart';
+import 'package:shop_app/screens/PushNotificationScreen.dart';
 import 'package:shop_app/screens/product_page.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -72,7 +73,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 IconButton(
                     icon: Icon(Icons.notifications),
                     onPressed: () {
-                      Get.to(PushNotificationsController());
+                      Get.to(PushNotificationScreen());
                     }),
                 GetBuilder<PushNotificationsController>(
                     init: PushNotificationsController(),
