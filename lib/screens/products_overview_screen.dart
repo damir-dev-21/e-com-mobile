@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/constants/colors.dart';
+import 'package:shop_app/providers/AuthController.dart';
 import 'package:shop_app/providers/Carts.dart';
 import 'package:shop_app/providers/Products.dart';
 import 'package:shop_app/providers/PushNotifications.dart';
@@ -15,8 +16,19 @@ import 'package:shop_app/widgets/home/product_grid_overview.dart';
 import 'package:shop_app/widgets/home/search_input.dart';
 import 'package:shop_app/widgets/home/slider_widget.dart';
 
-class ProductsOverviewScreen extends StatelessWidget {
+class ProductsOverviewScreen extends StatefulWidget {
+  @override
+  State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
+}
+
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   final Products productsController = Get.put(Products());
+
+  @override
+  void initState() {
+    Get.put(AuthControlller()).getUserOrders();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

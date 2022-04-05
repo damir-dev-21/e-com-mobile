@@ -7,6 +7,7 @@ import 'package:shop_app/models/Notif.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/services/database_helper.dart';
+import 'package:shop_app/services/notification_message.dart';
 
 DatabaseHelper db = DatabaseHelper();
 
@@ -71,6 +72,8 @@ class PushNotificationsController extends GetxController {
           };
 
           addNotif(notif);
+          createPlantFoodNotification(product.photo);
+
           await db.insertNotif(obj);
         });
         update();

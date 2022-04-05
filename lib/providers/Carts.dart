@@ -92,8 +92,6 @@ class CartController extends GetxController {
       'success': false
     };
 
-    print(userController.user.id);
-
     try {
       final request = await http.post(Uri.parse(url),
           body: json.encode(body),
@@ -101,8 +99,6 @@ class CartController extends GetxController {
             "Content-Type": "application/json",
             'token': userController.user.token
           });
-
-      print(json.encode(body));
 
       products.clear();
       total = 0;

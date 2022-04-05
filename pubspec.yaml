@@ -39,6 +39,7 @@ dependencies:
   sqflite: ^2.0.1
   path: ^1.8.0
   intl: ^0.17.0
+  awesome_notifications: ^0.6.21
 
 dev_dependencies:
   flutter_test:
@@ -48,9 +49,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/launch_icons/icon.png"
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/images/launch_icons/icon.png"
+  image_path: "assets/images/launch_icons/logo.png"
+  adaptive_icon_background: "assets/images/launch_icons/logo_background.png"
+  adaptive_icon_foreground: "assets/images/launch_icons/logo_foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

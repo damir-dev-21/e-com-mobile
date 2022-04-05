@@ -4,14 +4,25 @@ import 'package:get/get.dart';
 import 'package:shop_app/constants/colors.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/providers/AuthController.dart';
+import 'package:shop_app/screens/MyOrdersScreen.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
   final AuthControlller authControlller = Get.put(AuthControlller());
+  bool switcher = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final User user = authControlller.user;
-
     return ThemeSwitchingArea(
       child: Scaffold(
         appBar: AppBar(
@@ -20,14 +31,27 @@ class AccountScreen extends StatelessWidget {
           actions: [
             ThemeSwitcher(builder: (context) {
               return IconButton(
-                  onPressed: () => ThemeSwitcher.of(context)
-                      .changeTheme(theme: ThemeData.dark()),
-                  icon: Icon(Icons.dark_mode));
-            })
+                  onPressed: () {
+                    setState(() {
+                      switcher = !switcher;
+                    });
+                    if (switcher == false) {
+                      ThemeSwitcher.of(context)
+                          .changeTheme(theme: ThemeData.light());
+                    } else {
+                      ThemeSwitcher.of(context)
+                          .changeTheme(theme: ThemeData.dark());
+                    }
+                  },
+                  icon: Icon(switcher ? Icons.light_mode : Icons.dark_mode));
+            }),
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {}, label: Text("Редактировать")),
+            onPressed: () {
+              Get.to(MyOrdersScreen());
+            },
+            label: Text("Мои заказы")),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(10.0),

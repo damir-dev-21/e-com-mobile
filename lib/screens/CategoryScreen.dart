@@ -169,7 +169,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     Text(
-                                      items[i].price.toString() + '\$',
+                                      items[i].price.toString() + ' сум',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: Colors.grey),
                                     ),

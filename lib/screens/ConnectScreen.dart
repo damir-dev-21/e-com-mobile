@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/providers/AuthController.dart';
@@ -17,7 +20,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     super.initState();
     Workmanager.initialize(
       callbackDispatcher,
-      isInDebugMode: true,
+      isInDebugMode: false,
     );
 
     Workmanager.registerPeriodicTask(
@@ -31,6 +34,50 @@ class _ConnectScreenState extends State<ConnectScreen> {
       dropUser,
       frequency: Duration(hours: 3),
     );
+
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Разрешить уведомление'),
+            content: Text('Приложение поддерживает фоновое уведомление'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Не разрешить',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              TextButton(
+                  onPressed: () => AwesomeNotifications()
+                      .requestPermissionToSendNotifications()
+                      .then((_) => Navigator.pop(context)),
+                  child: Text(
+                    'Разрешить',
+                    style: TextStyle(
+                      color: Colors.teal,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ))
+            ],
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    AwesomeNotifications().actionSink.close();
+    super.dispose();
   }
 
   @override

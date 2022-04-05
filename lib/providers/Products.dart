@@ -5,6 +5,9 @@ import 'package:shop_app/constants/config.dart';
 import 'package:shop_app/models/Category.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/providers/AuthController.dart';
+
+AuthControlller authControlller = Get.put(AuthControlller());
 
 class Products extends GetxController {
   final List<Product> _items = [];
@@ -178,6 +181,8 @@ class Products extends GetxController {
 
         addProduct(product);
       });
+
+      authControlller.getUserOrders();
 
       update();
     } catch (e) {

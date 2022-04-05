@@ -71,7 +71,6 @@ class DatabaseHelper {
     return List.generate(notifMap.length, (index) {
       Product prod = Product.fromJson(notifMap[index]['product']);
 
-      print(prod);
       return Notif(notifMap[index]['id'], notifMap[index]['date'], prod,
           notifMap[index]['message']);
     });

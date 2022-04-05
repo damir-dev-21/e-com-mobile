@@ -1,37 +1,17 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'package:shop_app/providers/PushNotifications.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
-class Notification {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  final PushNotificationsController notif =
-      Get.put(PushNotificationsController());
-  Future showNotificationWithoutSound() async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        '1', 'location-bg', 'fetch location in background',
-        playSound: false, importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics =
-        new IOSNotificationDetails(presentSound: false);
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    notif.items.forEach((element) async {
-      await flutterLocalNotificationsPlugin.show(
-        element.id,
-        'Добавлены новые товары',
-        element.product.name.toString(),
-        platformChannelSpecifics,
-        payload: '',
-      );
-    });
-  }
+int createUniqueId() {
+  return DateTime.now().millisecondsSinceEpoch.remainder(100000);
+}
 
-  Notification() {
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
+Future<void> createPlantFoodNotification(String urlImg) async {
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+        id: createUniqueId(),
+        channelKey: "basic_chanel",
+        title: '${Emojis.clothing_shopping_bags}',
+        body: 'Добавлены новые товары',
+        bigPicture: urlImg,
+        notificationLayout: NotificationLayout.BigPicture),
+  );
 }
