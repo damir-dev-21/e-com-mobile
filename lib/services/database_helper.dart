@@ -27,20 +27,24 @@ class DatabaseHelper {
     """);
 
     db.execute("""
-       CREATE TABLE notification(
+        CREATE TABLE newProducts(
           id INTEGER,
-          date TEXT,
-          product TEXT,
-          message TEXT
-        )
+          name TEXT,
+          photo TEXT,
+          description TEXT,
+          price TEXT,
+          categoryName TEXT,
+          subcategoryName TEXT,
+          count INTEGER
+        ) 
     """);
 
     print('Tables was created!');
   }
 
-  Future<void> insertNotif(notif) async {
+  Future<void> insertNotif(Product product) async {
     Database _db = await init();
-    await _db.insert('notification', notif,
+    await _db.insert('newProducts', product.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
@@ -64,15 +68,22 @@ class DatabaseHelper {
     });
   }
 
-  Future<List<Notif>> getNotif() async {
+  Future<List<Product>> getNotif() async {
     var database = await db;
-    List<Map<String, dynamic>> notifMap = await database.query('notification');
+    List<Map<String, dynamic>> notifMap = await database.query('newProducts');
 
     return List.generate(notifMap.length, (index) {
-      Product prod = Product.fromJson(notifMap[index]['product']);
+      Product prod = Product(
+          notifMap[index]['id'],
+          notifMap[index]['name'],
+          notifMap[index]['photo'],
+          notifMap[index]['description'],
+          notifMap[index]['price'],
+          notifMap[index]['categoryName'],
+          notifMap[index]['subcategoryName'],
+          notifMap[index]['count']);
 
-      return Notif(notifMap[index]['id'], notifMap[index]['date'], prod,
-          notifMap[index]['message']);
+      return prod;
     });
   }
 }

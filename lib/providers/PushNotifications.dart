@@ -16,7 +16,6 @@ class PushNotificationsController extends GetxController {
 
   @override
   void onInit() {
-    getLastNewProd();
     super.onInit();
   }
 
@@ -74,7 +73,7 @@ class PushNotificationsController extends GetxController {
           addNotif(notif);
           createPlantFoodNotification(product.photo);
 
-          await db.insertNotif(obj);
+          await db.insertNotif(product);
         });
         update();
       } catch (e) {

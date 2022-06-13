@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/constants/colors.dart';
 import 'package:shop_app/models/Notif.dart';
+import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/providers/Products.dart';
 import 'package:shop_app/providers/PushNotifications.dart';
 
 class PushNotificationScreen extends StatelessWidget {
-  final PushNotificationsController pushNController =
-      Get.put(PushNotificationsController());
+  final Products pushNController = Get.put(Products());
   @override
   Widget build(BuildContext context) {
-    final List<Notif> notf = pushNController.items;
+    final List<Product> notf = pushNController.newsItems;
     return Scaffold(
       appBar: AppBar(
           backgroundColor: appBarColor,
@@ -41,7 +42,7 @@ class PushNotificationScreen extends StatelessWidget {
                                 margin: const EdgeInsets.only(bottom: 10),
                                 child: Align(
                                     alignment: Alignment.topRight,
-                                    child: Text(notf[i].date,
+                                    child: Text(notf[i].categoryName,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black38))),
@@ -50,7 +51,7 @@ class PushNotificationScreen extends StatelessWidget {
                                   width: double.infinity,
                                   height: 220 / 3,
                                   child: Image.network(
-                                    notf[i].product.photo,
+                                    notf[i].photo,
                                     fit: BoxFit.contain,
                                   )),
                             ],
@@ -70,7 +71,7 @@ class PushNotificationScreen extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(top: 5),
                                 child: Center(
-                                    child: Text(notf[i].product.name,
+                                    child: Text(notf[i].name,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             color: Colors.black))),

@@ -32,8 +32,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PushNotificationsController pNotController =
-        Get.put(PushNotificationsController());
+    Products pNotController = Get.put(Products());
     final cartController = Get.put(CartController());
 
     return ThemeSwitchingArea(
@@ -51,8 +50,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     );
   }
 
-  AppBar buildAppBar(CartController cartController,
-      PushNotificationsController pNotController) {
+  AppBar buildAppBar(CartController cartController, Products pNotController) {
     return AppBar(
       backgroundColor: appBarColor,
       title: Text('Магазин'),
@@ -99,8 +97,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 onPressed: () {
                   Get.to(PushNotificationScreen());
                 }),
-            GetBuilder<PushNotificationsController>(
-                init: PushNotificationsController(),
+            GetBuilder<Products>(
+                init: Products(),
                 builder: (_) {
                   return Positioned(
                     top: 15,

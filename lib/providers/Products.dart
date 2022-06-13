@@ -6,7 +6,10 @@ import 'package:shop_app/models/Category.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/providers/AuthController.dart';
+import 'package:shop_app/services/database_helper.dart';
+import 'package:sqflite/sqflite.dart';
 
+DatabaseHelper db = DatabaseHelper();
 AuthControlller authControlller = Get.put(AuthControlller());
 
 class Products extends GetxController {
@@ -206,9 +209,15 @@ class Products extends GetxController {
 
       String bodyNew = utf8.decode(responceNewProd.bodyBytes);
       final extractedDataNew = json.decode(bodyNew) as List<dynamic>;
+      Database current_db = await DatabaseHelper().db;
+      final newItems = await db.getNotif();
 
-      if (extractedDataNew.isNotEmpty) {
-        extractedDataNew.forEach((element) {
+      if (newItems.isNotEmpty) {
+        newItems.forEach((element) {
+          addNewItems(element);
+        });
+      } else if (extractedDataNew.isNotEmpty) {
+        extractedDataNew.forEach((element) async {
           Product product = Product(
               element['id'],
               element["name"],
@@ -219,6 +228,7 @@ class Products extends GetxController {
               element["subcategory_name"],
               0);
           update();
+          await db.insertNotif(product);
           addNewItems(product);
         });
       } else {
